@@ -27,17 +27,25 @@ Autodesk.Viewing.Initializer({
   }, err => console.error("load failed", err));
 });
 
-// Survey data is Z-up (Z = altitude); the viewer defaults to Y-up, which makes
-// the home view top-down and first-person "forward" climb vertically.
+// Survey data is Z-up. Frame it from above so the terrain reads as a site model
+// instead of intersecting the camera at street level.
 function setHumanView() {
   viewer.navigation.setWorldUpVector(new THREE.Vector3(0, 0, 1), true);
   const bb = viewer.model.getBoundingBox();
   const c = bb.center();
-  const eyeZ = bb.min.z + 2;                       // ~head height above ground
-  const eye = new THREE.Vector3(c.x, bb.min.y - 15, eyeZ);
-  const target = new THREE.Vector3(c.x, c.y, eyeZ); // look horizontally north
+  const size = bb.size();
+  const span = Math.max(size.x, size.y);
+  const aspect = viewer.container.clientWidth / viewer.container.clientHeight;
+  const portraitScale = Math.max(1, 0.92 / aspect);
+  const target = new THREE.Vector3(c.x, c.y, c.z - size.z * 0.14);
+  const eye = new THREE.Vector3(
+    c.x + span * 0.82 * portraitScale,
+    c.y - span * 0.82 * portraitScale,
+    c.z + span * 0.56 * portraitScale
+  );
   viewer.navigation.setView(eye, target);
   viewer.navigation.setCameraUpVector(new THREE.Vector3(0, 0, 1));
+  viewer.impl.invalidate(true, true, true);
 }
 
 function moveCar() {

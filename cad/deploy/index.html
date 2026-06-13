@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/style.min.css">
 <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/viewer3D.min.js"></script>
 <style>
+html,body{margin:0;width:100%;height:100%;overflow:hidden}
 #v{position:absolute;inset:0}
 
 /* --- additive: glass control panel (same buttons, same handlers, same ids) --- */
@@ -50,10 +51,17 @@
   .cad-panel{animation:none;opacity:1;transform:none}
   .cad-panel button{transition:none}
 }
+
+@media (max-width:640px){
+  #guiviewer3d-toolbar{display:none!important}
+  .cad-panel{padding:8px;gap:5px}
+  .cad-panel__title span{display:none}
+  .cad-panel button{padding:8px 10px;font-size:11px}
+}
 </style>
 </head><body>
 <div class="cad-panel" style="position:absolute;z-index:9;top:8px;left:8px">
-  <div class="cad-panel__title"><b>Sonder</b><span>Autodesk scene</span></div>
+  <div class="cad-panel__title"><b>Sonder 206</b><span>Autodesk scene</span></div>
   <button onclick="moveCar()">Move selected car</button>
   <button onclick="deleteCar()">Delete selected car</button>
 </div>
