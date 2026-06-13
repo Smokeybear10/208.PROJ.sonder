@@ -1,6 +1,9 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Sonder · Cyvl Street Look-Around</title>
+<meta name="description" content="Inspect the real Cyvl street capture for a shortlisted Sonder EV charger site."/>
+<meta name="theme-color" content="#0A0D10"/>
+<link rel="icon" href="sonder-mark.svg" type="image/svg+xml"/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
 <script src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
@@ -58,6 +61,24 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--s
 .pnlm-control:hover{background:rgba(57,214,255,.18)!important}
 .pnlm-load-box{background:rgba(10,13,16,.86)!important;border-radius:14px!important;color:var(--text)!important;font-family:var(--mono)!important}
 .pnlm-lbox .pnlm-loading{filter:hue-rotate(140deg) saturate(1.4)}
+@media (max-width:700px){
+ #bar{top:10px;left:10px;right:10px;max-width:none;padding:8px 11px 8px 8px;gap:9px}
+ #bar .logo{width:27px;height:27px}
+ #bar .brandtxt .sub{display:none}
+ #site{padding-left:9px}
+ #site h2{max-width:42vw;font-size:14px}
+ #readout{top:70px;right:10px;gap:15px;padding:8px 13px}
+ #readout .rd b{font-size:14px}
+ #ctl{left:10px;right:10px;bottom:10px;width:auto;transform:none;display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;padding:6px}
+ #pos{grid-column:1/-1;grid-row:1;min-width:0;padding:4px 0}
+ #prev{grid-column:1;grid-row:2}
+ #recenter{grid-column:2;grid-row:2}
+ #next{grid-column:3;grid-row:2}
+ #viewcad{grid-column:1/-1;grid-row:3}
+ .btn{padding:9px 7px;font-size:11px;white-space:nowrap}
+ .note{display:none}
+}
 </style></head><body>
 <div id="panorama"></div>
 <div id="err">No 360 capture loaded for this site.</div>
@@ -81,8 +102,9 @@ const P=window.PANOS;
 const qs=new URLSearchParams(location.search);
 const site={lat:parseFloat(qs.get('lat')),lng:parseFloat(qs.get('lng')),id:qs.get('site')||'',addr:qs.get('addr')||''};
 const hasSite=isFinite(site.lat)&&isFinite(site.lng);
+const IS_LOCAL=location.hostname==='localhost'||location.hostname==='127.0.0.1';
 const CAD_SITE='IA17248',CAD_URL='http://localhost:8081/index.html';
-document.getElementById('viewcad').onclick=()=>{const u=site.id===CAD_SITE?CAD_URL:('autodesk-prerender.html?site='+encodeURIComponent(site.id)+'&addr='+encodeURIComponent(site.addr||''));window.open(u,'_blank','noopener')};
+document.getElementById('viewcad').onclick=()=>{const u=site.id===CAD_SITE&&IS_LOCAL?CAD_URL:('autodesk-prerender.html?site='+encodeURIComponent(site.id)+'&addr='+encodeURIComponent(site.addr||''));window.open(u,'_blank','noopener')};
 function fail(m){document.getElementById('err').style.display='grid';document.getElementById('err').textContent=m;}
 if(!P||!P.id||!P.id.length){fail('Panorama index not loaded.');}
 else{

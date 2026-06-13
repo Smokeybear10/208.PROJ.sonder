@@ -1,5 +1,7 @@
 # Sonder | EV Charger Site Screening
 
+**Live demo: [sonder-207.vercel.app](https://sonder-207.vercel.app)**
+
 Instant EV charger site screening from street-level 3D scans. Sonder ranks curb
 segments, then sends AI surveyor agents to the finalists to measure each site,
 inspect street imagery, and return a Go / Conditional / No-go verdict.

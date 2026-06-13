@@ -1,6 +1,12 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>SONDER</title>
+<title>Sonder | EV Charger Site Screening</title>
+<meta name="description" content="Screen curbside EV charger sites from street-level 3D scans, infrastructure data, and AI survey agents."/>
+<meta name="theme-color" content="#0A0D10"/>
+<meta property="og:title" content="Sonder | EV Charger Site Screening"/>
+<meta property="og:description" content="Rank curb segments, inspect real street evidence, and qualify EV charger sites before the truck roll."/>
+<meta property="og:type" content="website"/>
+<link rel="icon" href="sonder-mark.svg" type="image/svg+xml"/>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="vendor/leaflet.css"/>
 <script src="vendor/leaflet.js"></script>
@@ -236,6 +242,43 @@ body.ready #cmdbar{animation:enterTopC .62s .08s cubic-bezier(.2,.8,.2,1) both}
  #report.open .rbody>*{opacity:1}
  .loader .lmark,.loader .lbar i{animation:none!important}
 }
+@media (max-width:1100px){
+ #report{top:76px;max-height:calc(100dvh - 94px)}
+}
+@media (max-width:700px){
+ #brand{top:10px;left:10px;padding:7px 11px 7px 8px}
+ #brand .logo{width:34px;height:34px}
+ #brand h1{font-size:15px}
+ #brand .sub{font-size:8px}
+ #cmdbar{top:62px;left:10px;right:10px;width:auto;transform:none;padding:10px 11px;gap:8px}
+ body.ready #cmdbar{animation:enterTop .58s .06s cubic-bezier(.2,.8,.2,1) both}
+ #cmdbar input{min-width:0;font-size:13px}
+ #cmdbar .count{padding:6px 7px}
+ #results{top:116px;left:10px;right:10px;width:auto;max-height:calc(100dvh - 134px);
+  transform:translateY(-8px) scale(.99)}
+ #results.open{transform:translateY(0) scale(1)}
+ #report{top:auto;right:8px;bottom:8px;left:8px;width:auto;max-height:calc(100dvh - 102px);
+  transform:translateY(18px) scale(.99);border-radius:18px}
+ #report.open{transform:none}
+ .rresize{display:none}
+ .rphoto{height:142px}
+ .rbody{padding:13px 15px}
+ .leaflet-control-zoom{margin:10px!important}
+ #dispatch{bottom:14px;max-width:calc(100vw - 20px)}
+ #tally{bottom:72px}
+ #svToast{bottom:72px;max-width:calc(100vw - 20px);text-align:center}
+}
+@media (max-width:420px){
+ #brand .sub{display:none}
+ #cmdbar .ic{display:none}
+ #cmdbar .count{font-size:9px}
+ .rfilt{gap:9px}
+ .rfilt .fg{flex-wrap:wrap}
+ .rhead,.rfilt,.row,.rfoot{padding-left:13px;padding-right:13px}
+ .econ{gap:6px}
+ .ec{padding:9px 6px}
+ .ec .v{font-size:16px}
+}
 </style></head><body>
 <div id="map"></div>
 <div id="vignette"></div>
@@ -340,12 +383,13 @@ function surveyHtml(s){const lv=LIVE[s.id];if(lv)return liveSurveyHtml(s,lv);
 // Autodesk: one site is actually rendered (School St, IA17248) and links to the local APS viewer
 // served by cad/viewer/token_server.py on :8080. Every other site shows the button but only ever
 // spins (we have not baked a scene for those).
+const IS_LOCAL=location.hostname==='localhost'||location.hostname==='127.0.0.1';
 const AUTODESK_SITE='IA17248';
 const AUTODESK_URL='http://localhost:8081/index.html';
 function autodeskBtn(s){
- if(s.id===AUTODESK_SITE)
+ if(s.id===AUTODESK_SITE&&IS_LOCAL)
   return `<a class="adskbtn" href="${AUTODESK_URL}" target="_blank" rel="noopener">Show in Autodesk <span class="ar">↗</span></a>`;
- // every other site opens a new tab that sits forever on "generating pre-render" (no scene baked)
+ // Production uses the static pipeline preview because the APS token server is local-only.
  const q=`site=${encodeURIComponent(s.id)}&addr=${encodeURIComponent(s.addr||'')}`;
  return `<a class="adskbtn" href="autodesk-prerender.html?${q}" target="_blank" rel="noopener">Show in Autodesk <span class="ar">↗</span></a>`;
 }
@@ -430,7 +474,7 @@ document.querySelectorAll('.rfilt b[data-size]').forEach(b=>b.onclick=()=>{stati
  document.querySelectorAll('.rfilt b[data-size]').forEach(x=>x.classList.toggle('on',x===b));rerender();if(sel&&!activeSites().some(s=>s.id===sel)){const t=topList();if(t.length)select(t[0].id)}});
 document.querySelectorAll('.rfilt b[data-vf]').forEach(b=>b.onclick=()=>{verdictFilter=b.dataset.vf;
  document.querySelectorAll('.rfilt b[data-vf]').forEach(x=>x.classList.toggle('on',x===b));rerender()});
-const SWARM='http://127.0.0.1:8000';
+const SWARM=IS_LOCAL?'http://127.0.0.1:8000':null;
 const LV_COL={go:'#3DF58B',conditional:'#FFB02E',no_go:'#FF5A52'};
 const LV_LBL={go:['GO','var(--green)'],conditional:['CONDITIONAL','var(--amber)'],no_go:['NO-GO','var(--red)']};
 let LIVE={},liveWinner=null,surveying=false,swarmMode='mock',winnerRing=null;
@@ -536,7 +580,7 @@ function swarmDisperse(){const old=bees;bees=[];if(swarmRAF){cancelAnimationFram
 async function downloadPdf(){const s=S.find(x=>x.id===sel);if(!s)return;const btn=document.getElementById('pdfBtn');const old=btn?btn.textContent:'';if(btn){btn.textContent='Building the PDF…';btn.disabled=true}try{const payload={site:{id:s.id,addr:s.addr,nb:s.nb,lat:s.lat,lng:s.lng,score:s.score,cost:s.cost,pay:s.pay,m:s.m,img:s.img},verdict:LIVE[s.id]||null,required_frontage_ft:SIZE_FRONTAGE[stationSize]};const res=await fetch(SWARM+'/report/pdf',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});if(!res.ok)throw new Error('http '+res.status);const blob=await res.blob();const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='sonder_'+s.id+'.pdf';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);if(btn){btn.textContent='✓ Downloaded';setTimeout(()=>{btn.textContent=old;btn.disabled=false},1600)}}catch(e){svToast('PDF needs the swarm service running');if(btn){btn.textContent='PDF failed';setTimeout(()=>{btn.textContent=old;btn.disabled=false},1800)}}}
 document.getElementById('dispatch').onclick=dispatchSurvey;
 document.getElementById('dispatch').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();dispatchSurvey()}});
-fetch(SWARM+'/health').then(r=>r.json()).then(h=>{swarmMode=h.mode;updateDispatch()}).catch(()=>{});
+if(SWARM)fetch(SWARM+'/health').then(r=>r.json()).then(h=>{swarmMode=h.mode;updateDispatch()}).catch(()=>{});
 /* top-site marker removed — School Street is shown like every other site (per request) */
 (function(){ return;
   const ID="IA17248";
