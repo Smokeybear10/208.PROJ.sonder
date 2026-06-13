@@ -27,7 +27,7 @@ crew uses `SWARM_CREW_MODEL` (default Sonnet). Override in `.env`.
 ## The service (what the frontend calls)
 
 ```bash
-pip install -r requirements-swarm.txt
+pip install -r swarm/requirements.txt
 uvicorn swarm.service:app --reload --port 8000
 ```
 

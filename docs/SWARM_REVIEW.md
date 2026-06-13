@@ -52,7 +52,7 @@ rule (rubric: fake data = 0).
 ## Run
 
 ```bash
-pip install -r requirements-swarm.txt pytest
+pip install -r swarm/requirements.txt pytest
 pytest -q                      # 31 passed
 ANTHROPIC_API_KEY= pytest -q   # belt-and-suspenders: force-disable the key
 ```

@@ -7,7 +7,7 @@ if the request omits finalists/measurements we fall back to mock_data so the fro
 integrate against this today.
 
 Run:
-    pip install -r requirements-swarm.txt
+    pip install -r swarm/requirements.txt
     uvicorn swarm.service:app --reload --port 8000
 
 Endpoints:

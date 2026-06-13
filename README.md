@@ -25,6 +25,16 @@ CV-detected assets) with Claude and Autodesk tooling.
 - [platform_export/](platform_export/) — Somerville layers exported from the platform (shapefiles + GeoJSON), including the routable street centerline. See its README.
 - [CLAUDE.md](CLAUDE.md) — instructions for Claude Code in this repo.
 
+## Repository layout
+
+- `demo/` — production screening interface and its site data.
+- `cad/` — LiDAR-to-CAD pipeline, Autodesk viewer, deployment, and tests.
+- `survey/`, `screening/`, `swarm/` — site scoring and survey-agent services.
+- `platform_export/` — source GIS exports used by the pipeline.
+- `assets/brand/` — consolidated Sonder logo and icon exports.
+- `design/` — retained interface studies; superseded mockups have been removed.
+- `docs/` — project notes and the complete pitch packet.
+
 ## Key links
 
 - Platform: https://cyvl.app/projects?chatModal=open

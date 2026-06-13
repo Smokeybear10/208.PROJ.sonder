@@ -7,6 +7,8 @@ __pycache__/
 .pytest_cache/
 .venv/
 venv/
+.vercel/
+node_modules/
 # point cloud / large data
 *.las
 *.laz
