@@ -1,8 +1,12 @@
-# CVYLHACK
+# Sonder | EV Charger Site Screening
 
-Cyvl Physical AI Hackathon. "Build the Physical Future." Cyvl HQ, Somerville, MA. June 13, 2026. $12k in prizes ($8k / $3k / $1k).
+Instant EV charger site screening from street-level 3D scans. Sonder ranks curb
+segments, then sends AI surveyor agents to the finalists to measure each site,
+inspect street imagery, and return a Go / Conditional / No-go verdict.
 
-Build a startup, not a demo, on top of Cyvl infrastructure data (LiDAR, digital twin, CV-detected assets), optionally paired with public Somerville/Boston data. Use one or two sponsor tools (NVIDIA, Autodesk, Ask Boston) in a way that genuinely fits the idea. Judges score the startup, not just the code.
+Built at the Cyvl Physical AI Hackathon in Somerville, Massachusetts on June 13,
+2026. The project combines Cyvl infrastructure data (LiDAR, digital twins, and
+CV-detected assets) with Claude and Autodesk tooling.
 
 ## Docs in this repo
 
