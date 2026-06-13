@@ -102,9 +102,8 @@ const P=window.PANOS;
 const qs=new URLSearchParams(location.search);
 const site={lat:parseFloat(qs.get('lat')),lng:parseFloat(qs.get('lng')),id:qs.get('site')||'',addr:qs.get('addr')||''};
 const hasSite=isFinite(site.lat)&&isFinite(site.lng);
-const IS_LOCAL=location.hostname==='localhost'||location.hostname==='127.0.0.1';
-const CAD_SITE='IA17248',CAD_URL='http://localhost:8081/index.html';
-document.getElementById('viewcad').onclick=()=>{const u=site.id===CAD_SITE&&IS_LOCAL?CAD_URL:('autodesk-prerender.html?site='+encodeURIComponent(site.id)+'&addr='+encodeURIComponent(site.addr||''));window.open(u,'_blank','noopener')};
+const CAD_URL='https://sonder-cad.vercel.app';
+document.getElementById('viewcad').onclick=()=>window.open(CAD_URL,'_blank','noopener');
 function fail(m){document.getElementById('err').style.display='grid';document.getElementById('err').textContent=m;}
 if(!P||!P.id||!P.id.length){fail('Panorama index not loaded.');}
 else{

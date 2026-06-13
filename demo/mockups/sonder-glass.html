@@ -380,18 +380,10 @@ function surveyHtml(s){const lv=LIVE[s.id];if(lv)return liveSurveyHtml(s,lv);
    <div class="sby">generated offline by the team's survey stub · with the API key the Claude agent writes this live from the photo + measurements</div>
    </div>
  </div>`}
-// Autodesk: one site is actually rendered (School St, IA17248) and links to the local APS viewer
-// served by cad/viewer/token_server.py on :8080. Every other site shows the button but only ever
-// spins (we have not baked a scene for those).
 const IS_LOCAL=location.hostname==='localhost'||location.hostname==='127.0.0.1';
-const AUTODESK_SITE='IA17248';
-const AUTODESK_URL='http://localhost:8081/index.html';
-function autodeskBtn(s){
- if(s.id===AUTODESK_SITE&&IS_LOCAL)
-  return `<a class="adskbtn" href="${AUTODESK_URL}" target="_blank" rel="noopener">Show in Autodesk <span class="ar">↗</span></a>`;
- // Production uses the static pipeline preview because the APS token server is local-only.
- const q=`site=${encodeURIComponent(s.id)}&addr=${encodeURIComponent(s.addr||'')}`;
- return `<a class="adskbtn" href="autodesk-prerender.html?${q}" target="_blank" rel="noopener">Show in Autodesk <span class="ar">↗</span></a>`;
+const AUTODESK_URL='https://sonder-cad.vercel.app';
+function autodeskBtn(){
+ return `<a class="adskbtn" href="${AUTODESK_URL}" target="_blank" rel="noopener">Show in Autodesk <span class="ar">↗</span></a>`;
 }
 function reportSkeleton(s){const m=s.m;const adaTxt=m.ada_mapped?(m.ada_pass?`Pass · ramp ${m.dist_ada} m`:`Ramp ${m.dist_ada} m`):'Not mapped · verify';
  const adaCls=m.ada_mapped?(m.ada_pass?'pass':'cond'):'cond';

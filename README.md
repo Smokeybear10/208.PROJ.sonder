@@ -1,10 +1,14 @@
 # Sonder | EV Charger Site Screening
 
-**Live demo: [sonder-207.vercel.app](https://sonder-207.vercel.app)**
+**Live demo: [sonder-206.vercel.app](https://sonder-206.vercel.app)**
+
+**Autodesk scene: [sonder-cad.vercel.app](https://sonder-cad.vercel.app)**
 
 Instant EV charger site screening from street-level 3D scans. Sonder ranks curb
 segments, then sends AI surveyor agents to the finalists to measure each site,
 inspect street imagery, and return a Go / Conditional / No-go verdict.
+Every Autodesk action opens the same interactive APS scene for the rendered
+School Street finalist.
 
 Built at the Cyvl Physical AI Hackathon in Somerville, Massachusetts on June 13,
 2026. The project combines Cyvl infrastructure data (LiDAR, digital twins, and

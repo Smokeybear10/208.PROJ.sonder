@@ -1,5 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sonder | Autodesk CAD Scene</title>
 <link rel="stylesheet" href="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/style.min.css">
 <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/viewer3D.min.js"></script>
 <style>
@@ -8,7 +10,8 @@
 /* --- additive: glass control panel (same buttons, same handlers, same ids) --- */
 .cad-panel{
   display:flex;flex-direction:column;gap:6px;
-  padding:10px;border-radius:10px;
+  width:max-content;max-width:calc(100vw - 16px);
+  padding:10px;border-radius:8px;
   background:rgba(10,14,16,.62);
   -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
   border:1px solid #34e3d4;
@@ -17,12 +20,18 @@
   opacity:0;transform:translateY(-6px);
   animation:cad-panel-in .5s cubic-bezier(.16,1,.3,1) .15s forwards;
 }
+.cad-panel__title{
+  display:flex;align-items:baseline;justify-content:space-between;gap:16px;
+  margin:0 2px 2px;color:#fff;
+  font:700 12px/1.2 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+.cad-panel__title span{color:#8ea4a2;font-size:10px;font-weight:500}
 .cad-panel button{
   appearance:none;cursor:pointer;
   font:600 12px/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-  letter-spacing:.02em;text-align:left;
+  letter-spacing:0;text-align:left;
   color:#cdfdf7;
-  padding:8px 12px;border-radius:7px;
+  padding:8px 12px;border-radius:6px;
   background:rgba(52,227,212,.06);
   border:1px solid rgba(52,227,212,.35);
   transition:background .18s ease,border-color .18s ease,transform .12s ease,box-shadow .18s ease;
@@ -44,11 +53,11 @@
 </style>
 </head><body>
 <div class="cad-panel" style="position:absolute;z-index:9;top:8px;left:8px">
+  <div class="cad-panel__title"><b>Sonder</b><span>Autodesk scene</span></div>
   <button onclick="moveCar()">Move selected car</button>
   <button onclick="deleteCar()">Delete selected car</button>
-  <button onclick="togglePoints()">Toggle point cloud</button>
 </div>
 <div id="v"></div>
-<script>const URN="dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6Y3l2bC1oYWNrLXhhdmllci9zY2VuZV9jYWRfdjYuemlw";</script>
+<script>const URN="dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6c29uZGVyX2NhZF9rZmU0OGd2czlxem4xd3NhL3NvbmRlcl9yZWFsX3YxLnppcA";</script>
 <script src="viewer.js"></script>
 </body></html>
