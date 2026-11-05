@@ -1,0 +1,107 @@
+{
+  "site": "IA18395",
+  "query": [
+    -71.100268,
+    42.384583
+  ],
+  "frame": "GX010770_MP4_1763569328012330_front_3000",
+  "frame_lonlat": [
+    -71.100246,
+    42.384627
+  ],
+  "frame_distance_m": 5.2,
+  "n_obstructions": 9,
+  "obstructions": [
+    {
+      "prompt": "parked car",
+      "lonlat": [
+        -71.100223,
+        42.384567
+      ],
+      "distance_m": 7.1,
+      "score": 0.9,
+      "lidar_points": 68777
+    },
+    {
+      "prompt": "tree",
+      "lonlat": [
+        -71.100361,
+        42.384575
+      ],
+      "distance_m": 11.1,
+      "score": 0.69,
+      "lidar_points": 36
+    },
+    {
+      "prompt": "parked car",
+      "lonlat": [
+        -71.100486,
+        42.384529
+      ],
+      "distance_m": 22.6,
+      "score": 0.88,
+      "lidar_points": 459273
+    },
+    {
+      "prompt": "parked car",
+      "lonlat": [
+        -71.100366,
+        42.38442
+      ],
+      "distance_m": 25.0,
+      "score": 0.82,
+      "lidar_points": 2231277
+    },
+    {
+      "prompt": "utility pole",
+      "lonlat": [
+        -71.100316,
+        42.384401
+      ],
+      "distance_m": 25.8,
+      "score": 0.77,
+      "lidar_points": 139770
+    },
+    {
+      "prompt": "tree",
+      "lonlat": [
+        -71.10043,
+        42.384414
+      ],
+      "distance_m": 28.3,
+      "score": 0.74,
+      "lidar_points": 25405
+    },
+    {
+      "prompt": "tree",
+      "lonlat": [
+        -71.100412,
+        42.384403
+      ],
+      "distance_m": 28.4,
+      "score": 0.69,
+      "lidar_points": 14592
+    },
+    {
+      "prompt": "utility pole",
+      "lonlat": [
+        -71.100389,
+        42.38439
+      ],
+      "distance_m": 28.9,
+      "score": 0.52,
+      "lidar_points": 2000
+    },
+    {
+      "prompt": "utility pole",
+      "lonlat": [
+        -71.100379,
+        42.384384
+      ],
+      "distance_m": 29.0,
+      "score": 0.75,
+      "lidar_points": 6342
+    }
+  ],
+  "overlay": "demo/mockups/sam/IA18395.jpg"
+}
