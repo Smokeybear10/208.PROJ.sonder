@@ -2,53 +2,56 @@
 
 **Live demo: [sonder-206.vercel.app](https://sonder-206.vercel.app)**
 
-**Autodesk scene: [sonder-cad.vercel.app](https://sonder-cad.vercel.app)**
+Compare potential curbside EV charger locations using saved Somerville infrastructure data.
 
-Instant EV charger site screening from street-level 3D scans. Sonder ranks curb
-segments, then sends AI surveyor agents to the finalists to measure each site,
-inspect street imagery, and return a Go / Conditional / No-go verdict.
-Every Autodesk action opens the same interactive APS scene for the rendered
-School Street finalist.
+The hosted demo is an earlier build. These screenshots show the interface in this checkout.
 
-Built at the Cyvl Physical AI Hackathon in Somerville, Massachusetts on June 13,
-2026. The project combines Cyvl infrastructure data (LiDAR, digital twins, and
-CV-detected assets) with Claude and Autodesk tooling.
+![Sonder map and selected street segment](assets/screenshots/workspace.jpg)
 
-## Docs in this repo
+Map data © [OpenStreetMap contributors](https://www.openstreetmap.org/copyright).
 
-- [docs/HACKATHON.md](docs/HACKATHON.md) — full brief, schedule, prizes, official prompts, pitch format.
-- [docs/JUDGING.md](docs/JUDGING.md) — the scoring rubric (4 criteria, /16) and how to win it.
-- [docs/DATA.md](docs/DATA.md) — what data actually exists (MCP vs the public S3 bucket), label counts, the CV training paths.
-- [docs/CYVL_API.md](docs/CYVL_API.md) — REST API reference, pulled from the live OpenAPI spec.
-- [docs/SPATIAL_SDK.md](docs/SPATIAL_SDK.md) — the Python `cyvl` SDK (3D<->2D projection, LiDAR, viewer).
-- [docs/IDEAS.md](docs/IDEAS.md) — team idea shortlist plus the official prompts.
-- [platform_export/](platform_export/) — Somerville layers exported from the platform (shapefiles + GeoJSON), including the routable street centerline. See its README.
-- [CLAUDE.md](CLAUDE.md) — instructions for Claude Code in this repo.
+Search streets, filter by segment length and screening score, or select an area on the map. Open a segment to inspect its recorded data and prepare a printable report.
 
-## Repository layout
+![Recorded street view on Summer Street](assets/screenshots/street-view.jpg)
 
-- `demo/` — production screening interface and its site data.
-- `cad/` — LiDAR-to-CAD pipeline, Autodesk viewer, deployment, and tests.
-- `survey/`, `screening/`, `swarm/` — site scoring and survey-agent services.
-- `platform_export/` — source GIS exports used by the pipeline.
-- `assets/brand/` — consolidated Sonder logo and icon exports.
-- `design/` — retained interface studies; superseded mockups have been removed.
-- `docs/` — project notes and the complete pitch packet.
+Street views open near the selected segment. Returning to the map restores the search, filters, and selection. The [Autodesk example](https://sonder-cad.vercel.app) shows one School Street model.
 
-## Key links
+## Quick Start
 
-- Platform: https://cyvl.app/projects?chatModal=open
-- API docs (Swagger): https://i3.cyvl.app/docs
-- MCP endpoint: https://i3.cyvl.app/mcp
-- Reference build: https://phi-cyvl.github.io/
-- Spatial SDK: https://github.com/roadgnar/cyvl-spatial-sdk
-- Ask Boston: https://askboston.ai
+The screening interface runs without a backend or API key. Python 3 is enough:
 
-## Rules that matter
+```bash
+git clone https://github.com/Smokeybear10/208.PROJ.sonder.git
+cd 208.PROJ.sonder
+python3 -m http.server 2400 --directory demo
+```
 
-- Real Cyvl data only. Fake data scores a 0 on the data criterion (25% of the total).
-- Not a "Google Maps clone" — that is named as a 0 on technical.
-- Use one or two sponsor tools, woven in, not bolted on. More is not better.
-- Bring a working demo AND a business case. 5 min pitch + 2 min Q&A.
-- Don't reframe an existing solution as novel. Search first.
-- API key is private. Do not commit it.
+Open http://localhost:2400
+
+## Data and Scope
+
+The app includes 456 street segments derived from the Cyvl infrastructure export. Scores compare geometry, nearby mapped assets, and road-marking proxies. They do not establish charger fit, electrical capacity, installation cost, or payback.
+
+Recorded street captures and detection overlays provide evidence for a desk review. Usable curb space, accessibility, restrictions, utility capacity, and permits still need verification on site. AI reviews are optional and disabled until a real backend is configured.
+
+## Tech Stack
+
+| Layer | Tools |
+| --- | --- |
+| Interface | HTML, CSS, JavaScript, Leaflet |
+| Street view | Pannellum, Cyvl captures |
+| Data processing | Python, GeoPandas, Shapely |
+| Optional services | FastAPI, Claude |
+| 3D example | Autodesk APS |
+
+## Project Structure
+
+```text
+demo/             # Screening interface, saved data, and street viewer
+screening/        # Spatial features and scoring
+survey/, swarm/   # Optional site-review services
+cad/              # LiDAR-to-CAD pipeline and Autodesk viewer
+platform_export/  # Source GIS layers
+```
+
+Built by Thomas Ou, Aarav Raina, Sayem Kamal, and Maximus Rome at the Cyvl Physical AI Hackathon.
