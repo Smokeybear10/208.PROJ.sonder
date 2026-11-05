@@ -1,0 +1,107 @@
+{
+  "site": "IA02250",
+  "query": [
+    -71.100555,
+    42.384429
+  ],
+  "frame": "GX020770_MP4_1763573211926038_front_3000",
+  "frame_lonlat": [
+    -71.100552,
+    42.384427
+  ],
+  "frame_distance_m": 0.3,
+  "n_obstructions": 9,
+  "obstructions": [
+    {
+      "prompt": "parked car",
+      "lonlat": [
+        -71.100419,
+        42.38442
+      ],
+      "distance_m": 11.2,
+      "score": 0.9,
+      "lidar_points": 207900
+    },
+    {
+      "prompt": "utility pole",
+      "lonlat": [
+        -71.100501,
+        42.384332
+      ],
+      "distance_m": 11.5,
+      "score": 0.86,
+      "lidar_points": 45771
+    },
+    {
+      "prompt": "parked car",
+      "lonlat": [
+        -71.100367,
+        42.384446
+      ],
+      "distance_m": 15.5,
+      "score": 0.87,
+      "lidar_points": 65742
+    },
+    {
+      "prompt": "utility pole",
+      "lonlat": [
+        -71.100376,
+        42.384317
+      ],
+      "distance_m": 19.3,
+      "score": 0.75,
+      "lidar_points": 76
+    },
+    {
+      "prompt": "utility pole",
+      "lonlat": [
+        -71.100326,
+        42.384377
+      ],
+      "distance_m": 19.5,
+      "score": 0.78,
+      "lidar_points": 34935
+    },
+    {
+      "prompt": "tree",
+      "lonlat": [
+        -71.100292,
+        42.384407
+      ],
+      "distance_m": 21.5,
+      "score": 0.78,
+      "lidar_points": 49213
+    },
+    {
+      "prompt": "tree",
+      "lonlat": [
+        -71.100384,
+        42.384269
+      ],
+      "distance_m": 22.5,
+      "score": 0.83,
+      "lidar_points": 3777
+    },
+    {
+      "prompt": "parked car",
+      "lonlat": [
+        -71.100314,
+        42.384317
+      ],
+      "distance_m": 23.2,
+      "score": 0.87,
+      "lidar_points": 15279
+    },
+    {
+      "prompt": "tree",
+      "lonlat": [
+        -71.100278,
+        42.384359
+      ],
+      "distance_m": 23.9,
+      "score": 0.75,
+      "lidar_points": 37728
+    }
+  ],
+  "overlay": "demo/mockups/sam/IA02250.jpg"
+}

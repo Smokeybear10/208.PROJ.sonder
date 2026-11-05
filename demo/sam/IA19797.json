@@ -1,0 +1,77 @@
+{
+  "site": "IA19797",
+  "query": [
+    -71.098172,
+    42.387659
+  ],
+  "frame": "GX040766_MP4_1763492346572176_front_3000",
+  "frame_lonlat": [
+    -71.098181,
+    42.387655
+  ],
+  "frame_distance_m": 0.8,
+  "n_obstructions": 6,
+  "obstructions": [
+    {
+      "prompt": "parked car",
+      "lonlat": [
+        -71.098189,
+        42.387559
+      ],
+      "distance_m": 10.8,
+      "score": 0.88,
+      "lidar_points": 180255
+    },
+    {
+      "prompt": "utility pole",
+      "lonlat": [
+        -71.098127,
+        42.387549
+      ],
+      "distance_m": 12.8,
+      "score": 0.82,
+      "lidar_points": 19056
+    },
+    {
+      "prompt": "tree",
+      "lonlat": [
+        -71.098366,
+        42.3876
+      ],
+      "distance_m": 16.9,
+      "score": 0.69,
+      "lidar_points": 93323
+    },
+    {
+      "prompt": "parked car",
+      "lonlat": [
+        -71.098232,
+        42.387492
+      ],
+      "distance_m": 18.6,
+      "score": 0.86,
+      "lidar_points": 146337
+    },
+    {
+      "prompt": "tree",
+      "lonlat": [
+        -71.098271,
+        42.387452
+      ],
+      "distance_m": 23.9,
+      "score": 0.77,
+      "lidar_points": 1679
+    },
+    {
+      "prompt": "parked car",
+      "lonlat": [
+        -71.098276,
+        42.387445
+      ],
+      "distance_m": 24.7,
+      "score": 0.83,
+      "lidar_points": 198461
+    }
+  ],
+  "overlay": "demo/mockups/sam/IA19797.jpg"
+}
