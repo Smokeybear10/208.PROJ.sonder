@@ -2,18 +2,6 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
   "trailingSlash": false,
-  "redirects": [
-    {
-      "source": "/autodesk",
-      "destination": "https://sonder-cad.vercel.app",
-      "permanent": false
-    },
-    {
-      "source": "/autodesk-prerender",
-      "destination": "https://sonder-cad.vercel.app",
-      "permanent": false
-    }
-  ],
   "rewrites": [
     {
       "source": "/sonder-glass",

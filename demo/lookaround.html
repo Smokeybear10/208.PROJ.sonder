@@ -75,7 +75,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--s
  #prev{grid-column:1;grid-row:2}
  #recenter{grid-column:2;grid-row:2}
  #next{grid-column:3;grid-row:2}
- #viewcad{grid-column:1/-1;grid-row:3}
  .btn{padding:9px 7px;font-size:11px;white-space:nowrap}
  .note{display:none}
 }
@@ -149,7 +148,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--s
  <button class="btn key" id="recenter" aria-label="Return to the nearest capture">Nearest</button>
  <span id="pos" role="status" aria-live="polite">&ndash;</span>
  <button class="btn" id="next" aria-label="Next street capture">Next&ensp;&#8250;</button>
- <button class="btn key" id="viewcad" title="Open the School Street example model">School Street model&ensp;&#8599;</button>
 </div>
 <div class="note glass">Cyvl street captures &middot; <b id="total">&ndash;</b> panoramas &middot; drag to look, scroll to zoom</div>
 <script>
@@ -158,8 +156,6 @@ const qs=new URLSearchParams(location.search);
 if(qs.get('return')==='workspace')document.getElementById('backBtn').href='./?restore=1';
 const site={lat:parseFloat(qs.get('lat')),lng:parseFloat(qs.get('lng')),id:qs.get('site')||'',addr:qs.get('addr')||''};
 const hasSite=isFinite(site.lat)&&isFinite(site.lng);
-const CAD_URL='https://sonder-cad.vercel.app';
-document.getElementById('viewcad').onclick=()=>window.open(CAD_URL,'_blank','noopener');
 function fail(m){document.getElementById('err').style.display='grid';document.getElementById('err').textContent=m;}
 if(!P||!P.id||!P.id.length){fail('The street capture index could not load. Return to the map and try again.');}
 else if(typeof pannellum==='undefined'){fail('The street viewer could not load. Check your connection or return to the map.');}

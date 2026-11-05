@@ -120,10 +120,6 @@ function clearSelection(){
  document.querySelectorAll('#clist .row').forEach(row=>{row.classList.remove('sel');row.setAttribute('aria-selected','false')})}
 function surveyHtml(s){const lv=LIVE[s.id];if(lv)return liveSurveyHtml(s,lv);
  return '<div class="surveynote">A desk review of mapped data. Confirm usable curb space and electrical capacity on site.</div>'}
-const AUTODESK_URL='https://sonder-cad.vercel.app';
-function autodeskBtn(){
- return `<a class="adskbtn" href="${AUTODESK_URL}" target="_blank" rel="noopener">Example: School Street 3D model <span class="ar">↗</span></a>`;
-}
 function reportSkeleton(s){const m=s.m;
  document.getElementById('rbody').innerHTML=`
   <div class="econ"><div class="ec"><div class="k uppr">Screening score</div><div class="v" style="color:${col(s.score)}">${s.gate?'—':s.score}</div></div>
@@ -146,7 +142,7 @@ function reportSkeleton(s){const m=s.m;
    <div class="kv"><span class="k">Road markings ≤45 m</span><span class="v">${m.activity}</span></div>
    <div class="kv"><span class="k">Traffic / charging demand</span><span class="v">Not available</span></div></div>
   <div class="blk"><div class="bh"><span>Check on site</span></div>
-   <div class="flagbox">Curb access and parking restrictions · accessible route · utility capacity · installation cost and permits. A nearby mapped asset is not a confirmed electrical connection.</div></div><div class="report-actions"><button class="pdfbtn" id="pdfBtn" onclick="openReport()">View full report</button>${autodeskBtn()}</div>`}
+   <div class="flagbox">Curb access and parking restrictions · accessible route · utility capacity · installation cost and permits. A nearby mapped asset is not a confirmed electrical connection.</div></div><div class="report-actions"><button class="pdfbtn" id="pdfBtn" onclick="openReport()">View full report</button></div>`}
 function resolveVerdict(s){const lv=LIVE[s.id];const el=document.getElementById('rVerd');if(lv){const mp={go:['Shortlist','var(--green)'],conditional:['Review','var(--amber)'],no_go:['Screened out','var(--red)']},mx=mp[lv.verdict]||['—','var(--accent)'];el.textContent=mx[0];el.style.color=mx[1];document.getElementById('rReason').textContent=lv.one_line_reason||'';return}const a=verdictOf(s);el.textContent=a[0];el.style.color=a[1];document.getElementById('rReason').textContent=reason(s)}
 function select(id){if(armed)return;const s=S.find(x=>x.id===id);if(!s)return;sel=id;
  const focusWasInList=!!document.activeElement?.closest('#clist');

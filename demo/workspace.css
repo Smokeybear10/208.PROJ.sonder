@@ -128,7 +128,6 @@ body:has(#report.open) #mapTools{right:calc(var(--inspector) + 18px)}
 .report-actions{display:flex;flex-direction:column;gap:12px;padding-top:4px}
 .pdfbtn{min-height:44px;padding:10px 14px;background:var(--accent);border-color:var(--accent);color:#fff;font-size:14px;font-weight:500}
 .pdfbtn:hover{background:#1e4454;border-color:#1e4454}
-.adskbtn{font-size:12px;line-height:1.6;text-align:left;text-underline-offset:3px;padding:4px 0}
 .evidence{margin-top:18px;border-top:1px solid var(--edge2);padding-top:12px}
 .evidence summary{cursor:pointer;font-size:13px;color:var(--text2);padding:8px 0}
 .evidence .blk{margin-top:12px}

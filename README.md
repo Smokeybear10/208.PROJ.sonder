@@ -1,10 +1,6 @@
 # Sonder | EV Charger Site Screening
 
-**Live demo: [sonder-206.vercel.app](https://sonder-206.vercel.app)**
-
 Compare potential curbside EV charger locations using saved Somerville infrastructure data.
-
-The hosted demo is an earlier build. These screenshots show the interface in this checkout.
 
 ![Sonder map and selected street segment](assets/screenshots/workspace.jpg)
 
@@ -14,7 +10,7 @@ Search streets, filter by segment length and screening score, or select an area 
 
 ![Recorded street view on Summer Street](assets/screenshots/street-view.jpg)
 
-Street views open near the selected segment. Returning to the map restores the search, filters, and selection. The [Autodesk example](https://sonder-cad.vercel.app) shows one School Street model.
+Street views open near the selected segment. Returning to the map restores the search, filters, and selection. The Autodesk viewer and model pipeline are in [`cad/`](cad/).
 
 ## Quick Start
 

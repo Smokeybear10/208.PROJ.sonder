@@ -226,7 +226,6 @@ test('sidebar and printable report disclose proxies instead of generated economi
     assert.match(content, /[Ss]egment length/);
     assert.match(content, /[Nn]ot (?:a confirmed electrical connection|measured usable curb space)/);
   }
-  assert.match(sidebar, /Example: School Street 3D model/);
   assert.doesNotMatch(sidebar, /Agent surveying|Stage 2 · AI Survey/);
   assert.match(report, /Somerville, MA/);
 });
