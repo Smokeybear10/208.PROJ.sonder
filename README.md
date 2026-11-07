@@ -2,52 +2,60 @@
 
 Compare potential curbside EV charger locations using saved Somerville infrastructure data.
 
-![Sonder map and selected street segment](assets/screenshots/workspace.jpg)
+The browser apps have been retired. Screenshots, saved street captures, screening code, survey services, and the CAD pipeline remain in this repository.
+
+![Former screening workspace and selected street segment](assets/screenshots/workspace.jpg)
 
 Map data © [OpenStreetMap contributors](https://www.openstreetmap.org/copyright).
 
-Search streets, filter by segment length and screening score, or select an area on the map. Open a segment to inspect its recorded data and prepare a printable report.
-
 ![Recorded street view on Summer Street](assets/screenshots/street-view.jpg)
-
-Street views open near the selected segment. Returning to the map restores the search, filters, and selection. The Autodesk viewer and model pipeline are in [`cad/`](cad/).
 
 ## Quick Start
 
-The screening interface runs without a backend or API key. Python 3 is enough:
+Run the existing screening and survey checks with Python 3.11+:
 
 ```bash
 git clone https://github.com/Smokeybear10/208.PROJ.sonder.git
 cd 208.PROJ.sonder
-python3 -m http.server 2400 --directory demo
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r screening/requirements.txt -r survey/requirements.txt -r swarm/requirements.txt httpx
+python -m pytest tests/ survey/tests/ --import-mode=importlib -q
 ```
 
-Open http://localhost:2400
+Generate a report from the saved survey fixtures without an API key:
+
+```bash
+ANTHROPIC_API_KEY= python -m survey.run_demo --pdf out/survey_report.pdf
+```
+
+The optional live survey path requires `ANTHROPIC_API_KEY`. See [`screening/`](screening/) for spatial screening and [`cad/`](cad/) for LiDAR processing and model exports.
 
 ## Data and Scope
 
-The app includes 456 street segments derived from the Cyvl infrastructure export. Scores compare geometry, nearby mapped assets, and road-marking proxies. They do not establish charger fit, electrical capacity, installation cost, or payback.
+The saved dataset includes 456 street segments derived from the Cyvl infrastructure export. Scores compare geometry, nearby mapped assets, and road-marking proxies. They do not establish charger fit, electrical capacity, installation cost, or payback.
 
-Recorded street captures and detection overlays provide evidence for a desk review. Usable curb space, accessibility, restrictions, utility capacity, and permits still need verification on site. AI reviews are optional and disabled until a real backend is configured.
+Recorded street captures and detection overlays provide evidence for a desk review. Usable curb space, accessibility, restrictions, utility capacity, and permits still need verification on site.
 
 ## Tech Stack
 
 | Layer | Tools |
 | --- | --- |
-| Interface | HTML, CSS, JavaScript, Leaflet |
-| Street view | Pannellum, Cyvl captures |
-| Data processing | Python, GeoPandas, Shapely |
-| Optional services | FastAPI, Claude |
-| 3D example | Autodesk APS |
+| Spatial processing | Python, GeoPandas, Shapely |
+| Survey services | FastAPI, Claude |
+| Reports | ReportLab |
+| CAD exports | PDAL, OBJ/MTL, Autodesk APS |
 
 ## Project Structure
 
 ```text
-demo/             # Screening interface, saved data, and street viewer
-screening/        # Spatial features and scoring
-survey/, swarm/   # Optional site-review services
-cad/              # LiDAR-to-CAD pipeline and Autodesk viewer
-platform_export/  # Source GIS layers
+assets/screenshots/  # Preserved screenshots of the former apps
+demo/                # Saved segment data, street captures, indexes, and brand mark
+screening/           # Spatial features and scoring
+survey/, swarm/      # Site-review services and reports
+perception/          # Street-capture analysis
+cad/                 # LiDAR-to-CAD pipeline, APS integration, coordinate utilities
+platform_export/     # Source GIS layers
 ```
 
 Built by Thomas Ou, Aarav Raina, Sayem Kamal, and Maximus Rome at the Cyvl Physical AI Hackathon.

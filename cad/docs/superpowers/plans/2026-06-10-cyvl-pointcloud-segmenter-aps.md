@@ -1,5 +1,7 @@
 # Cyvl Point-Cloud Street Segmenter → Autodesk APS — Implementation Plan
 
+Historical design record: the browser viewers, deployment files, and token servers described below have been retired. See [cad/README.md](../../../README.md) for the remaining model workflow.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Classify one Somerville block's Cyvl LiDAR into ground/road/sidewalk/cars + lift Cyvl's 2D CV asset detections (hydrants/signs/manholes) into 3D, then export an OBJ that is uploaded through the Autodesk APS cloud and rendered in the APS Viewer where individual cars can be moved or deleted.

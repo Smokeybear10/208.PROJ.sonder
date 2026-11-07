@@ -1,5 +1,5 @@
 """Quick APS round-trip: build a small scene (ground + cars + assets + EV charger), upload it to
-Autodesk, translate to SVF2, and print the URN to paste into the viewer.
+Autodesk, translate to SVF2, and print the resulting model URN.
 
 No PDAL / no LiDAR needed - this proves the Autodesk path and shows the charger end to end. The
 real demo scene comes from run.py on a real Cyvl tile; this is the no-creds-blocker proof + a
@@ -60,7 +60,6 @@ def main():
     wait_until_done(tok, urn)
     print("\n=== DONE ===")
     print("URN:", urn)
-    print("Paste this into viewer/index.html as const URN=\"...\" then run viewer/token_server.py")
 
 
 if __name__ == "__main__":

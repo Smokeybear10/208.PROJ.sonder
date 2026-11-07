@@ -1,6 +1,6 @@
-"""Export the ROI as a binary colored point cloud for the APS Viewer overlay.
+"""Export the ROI as a binary colored point cloud aligned with the CAD scene.
 
-Output viewer/points.bin layout (little-endian):
+Output out/points.bin layout (little-endian):
   uint32  count
   float32 count*3  positions (x - ox, y - oy, z)   -- same local origin as scene.obj
   uint8   count*3  colors (RGB)
@@ -72,7 +72,8 @@ xyz[:, 0] -= bbox[0]
 xyz[:, 1] -= bbox[1]
 pos = xyz.astype(np.float32)
 
-out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "viewer", "points.bin")
+out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out", "points.bin")
+os.makedirs(os.path.dirname(out), exist_ok=True)
 with open(out, "wb") as f:
     f.write(struct.pack("<I", len(pos)))
     f.write(pos.tobytes())

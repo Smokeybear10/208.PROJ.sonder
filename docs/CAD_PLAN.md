@@ -113,8 +113,8 @@ contribute back to his repo since he wanted us to use it.
   (`conda install -c conda-forge pdal python-pdal`) — it fails on pip/macOS.
 - `.env` (gitignored) needs `APS_CLIENT_ID` / `APS_CLIENT_SECRET` (Autodesk app credentials,
   separate from the Anthropic key). Get them from the APS developer portal.
-- Viewer token must be scoped `data:read` (not `viewer:read`); the local `viewer/token_server.py`
-  serves it. Credentials never touch the browser.
+- The bundled browser viewer and token server have been removed. The CAD pipeline still
+  exports OBJ/MTL and can upload and translate models through APS.
 - Data: pull the winner's LAZ tile + `pavements_v2`, `aboveGroundAssets_v2`,
   `streetviewImagePaths_v2` from the `cyvl-hackathon` S3 bucket (anonymous works).
 
@@ -123,12 +123,10 @@ contribute back to his repo since he wanted us to use it.
 The full pipeline (110M-point PDAL crop → APS translate) will **not** run reliably live. Do what
 Xavier did and what PLAN.md §7 says: **pre-bake one winning site** as an artifact.
 
-- Pre-run the pipeline for the demo's winning block, upload, get the URN, paste it into
-  `deploy/index.html`. Bump the object key each re-bake (`scene_cad_vN.zip`) or APS serves the
-  stale cached model.
-- In the demo: swarm picks the winner live → we cut to the pre-baked Autodesk Viewer of that block
-  with the EV station at the curb → move it / toggle the point cloud overlay → "exported to CAD,
-  movable, same engine any scanned street."
+- Pre-run the pipeline for the selected block, upload it, and save the translated model URN.
+  Bump the object key each re-bake (`scene_cad_vN.zip`) to avoid a stale cached model.
+- The original demo used the bundled browser viewer. That frontend has been removed;
+  the generated model and its URN can still be consumed by an Autodesk client.
 
 ## 7. Why this scores
 

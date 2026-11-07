@@ -1,4 +1,4 @@
-"""End-to-end driver: one Cyvl LiDAR tile -> classified scene -> APS Viewer.
+"""End-to-end driver: one Cyvl LiDAR tile -> classified scene -> CAD export and APS translation.
 
 Real Cyvl tiles are ~100M points. Flow: crop to an ROI via PDAL (streaming,
 memory-safe) -> SMRF ground filter -> voxel downsample -> road/sidewalk on
@@ -180,4 +180,4 @@ object_key = os.environ.get("SCENE_KEY", "scene_cad_v1.zip")
 urn = upload_object(tok, bucket, object_key, "out/scene_cad.zip")
 start_translation(tok, urn, root_filename="scene.obj")
 wait_until_done(tok, urn)
-print("\nPASTE THIS URN INTO viewer/index.html:\n", urn)
+print("\nTranslated APS model URN:\n", urn)

@@ -1,5 +1,7 @@
 # Cyvl Point-Cloud Street Segmenter → Autodesk APS
 
+Historical design record: the browser viewers, deployment files, and token servers described below have been retired. See [cad/README.md](../../../README.md) for the remaining model workflow.
+
 **Design spec · 2026-06-10**
 Project: Cyvl × Autodesk hackathon bonus track ("Best Capture-to-Design")
 Owner: Xavier

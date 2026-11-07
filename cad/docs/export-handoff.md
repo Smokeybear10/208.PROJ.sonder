@@ -1,7 +1,7 @@
 # Export Handoff — what makes the model export to APS cleanly
 
 Audience: another agent picking up this repo. Goal: reproduce a clean, editable,
-correctly-colored, correctly-oriented Autodesk Viewer scene from generated geometry.
+correctly-colored, correctly-oriented Autodesk model from generated geometry.
 This is the distilled "why it works" — the non-obvious decisions only. Repo overview
 lives in `docs/autodesk-integration-summary.md`; this file is the export path specifically.
 
@@ -9,7 +9,7 @@ lives in `docs/autodesk-integration-summary.md`; this file is the export path sp
 
 Generated meshes → multi-object **OBJ + MTL** → **zip** → OSS signed-S3 upload →
 Model Derivative **SVF2** translate (`compressedUrn` + `rootFilename`) → manifest poll →
-Viewer loads URN. Code: `pipeline/to_cad.py` (writer) + `aps/upload.py` + `aps/translate.py`,
+translated model URN. Code: `pipeline/to_cad.py` (writer) + `aps/upload.py` + `aps/translate.py`,
 driven by `run.py`.
 
 ## The decisions that made it export well
@@ -35,9 +35,8 @@ object's `usemtl` line picks one. `mttlib scene.mtl` must be the first OBJ line.
 Re-uploading changed geometry under the **same** object key serves the **stale** cached model.
 Two defenses, use both:
 - `x-ads-force: "true"` on the translate job (`aps/translate.py`).
-- **Version the object key per run**: `scene_cad_v1.zip`, `scene_cad_v2.zip`, … The live site
-  is on `scene_cad_v6.zip` (see `deploy/index.html` URN). Bump it whenever geometry changes or
-  you will demo an old scene and not know why.
+- **Version the object key per run**: `scene_cad_v1.zip`, `scene_cad_v2.zip`, … Bump it whenever geometry changes to avoid
+  retrieving a stale derivative.
 
 ### 4. Z-up survey data vs Y-up viewer
 LiDAR/UTM is Z-up; the Viewer defaults Y-up. Fix is in the viewer, not the export:
@@ -58,8 +57,8 @@ will break Model Derivative.
 ### 7. Auth scope gotcha
 2-legged token. Translate/upload need `data:read data:write data:create bucket:create bucket:read`.
 The **viewer** token must be `data:read` — `viewer:read` returns `400 invalid_scope` on 2-legged
-flows. Viewer fetches its token from a tiny endpoint (`deploy/api/token.js` in prod via Vercel env
-vars, `viewer/token_server.py` locally). Credentials never touch the client.
+flows. The bundled viewer and token-serving endpoints have been removed; the export pipeline
+keeps credentials in the Python process.
 
 ## Mesh generation notes (why objects look right)
 
@@ -87,5 +86,5 @@ vars, `viewer/token_server.py` locally). Credentials never touch the client.
 2. Generate or edit geometry → `write_obj` + `write_mtl` into `out/`.
 3. **Bump the object key** (`scene_cad_vN.zip`). Zip OBJ+MTL together.
 4. `upload_object` → `start_translation(root_filename="scene.obj")` → `wait_until_done`.
-5. Paste the printed URN into `deploy/index.html` (or `viewer/index.html`) `const URN=`.
-6. Verify in viewer: objects selectable, colored, Z-up. If stale → you reused the object key.
+5. Save the printed URN alongside the export for use in an Autodesk client.
+6. Check the translated manifest and exported OBJ/MTL. Reusing an object key may return a stale derivative.

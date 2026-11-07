@@ -1,35 +1,39 @@
-# Cyvl × Autodesk — point-cloud street segmenter
+# Cyvl × Autodesk | Point-Cloud Street Segmenter
 
-Two viewers by design: **APS Viewer** (top priority — editable CAD, move/delete
-cars) and **Potree** (raw classified cloud). The Autodesk path is built and proven
-first (Tasks 1-6) with a dummy scene, then the real scene replaces the dummy.
+Classify a LiDAR street segment, generate an OBJ/MTL model, and translate it through Autodesk APS.
+
+The bundled browser viewers and token servers have been removed. The model pipeline, APS integration, and tested coordinate-adjustment utilities remain.
 
 ## Setup
-- `python3.11 -m venv .venv && source .venv/bin/activate`
-- `pip install -r requirements.txt` (PDAL fails on pip/macOS — install via conda:
-  `conda install -c conda-forge pdal python-pdal`)
-- APS Client ID/Secret in `.env` (gitignored). Note: use `data:read` for the
-  viewer token; `viewer:read` is invalid for 2-legged OAuth.
 
-## Run order
-1. Autodesk path proven with a dummy:
-   `python -c "from pipeline.to_cad import write_dummy_scene; write_dummy_scene()"`
-   then `aps/` auth+upload+translate, then `viewer/`.
-2. `aws s3 cp s3://cyvl-hackathon/pointclouds/pointclouds_v2.geojson . --profile cyvl-hackathon`
-3. `python -m pipeline.select_tiles pointclouds_v2.geojson` → run the printed curl
-   commands to download tiles into `./laz`, then set `LAZ_DIR` in `.env`.
-4. Download the vector layers used by run.py:
-   `mkdir -p data && aws s3 cp s3://cyvl-hackathon/data/pavements_v2.geojson data/ --profile cyvl-hackathon`
-   `aws s3 cp s3://cyvl-hackathon/data/aboveGroundAssets_v2.geojson data/ --profile cyvl-hackathon`
-5. `pdal info "$LAZ_DIR"/*.laz --summary` → note the EPSG.
-6. `python run.py` → builds classified.laz + scene.obj, uploads, translates, prints the real URN.
-7. Paste URN into `viewer/index.html`, run `python viewer/token_server.py`, open http://localhost:8080.
-8. (Potree) view `out/classified.laz` for the raw segmentation demo.
+Use Python 3.11 and install the dependencies in `requirements.txt`. PDAL requires native libraries; on macOS, install it through conda with `conda install -c conda-forge pdal python-pdal`.
 
-## Tests
-`pytest -v`  (12 tests, no PDAL/data needed — they use synthetic fixtures)
+Set `APS_CLIENT_ID` and `APS_CLIENT_SECRET` in a local `.env` file for uploads and translations. Set `LAZ_DIR` to the directory containing the source point-cloud tiles. These credentials and large datasets are not committed.
 
-## Note
-`run.py` writes `out/classified.laz`; writing `.laz` needs the LAZ backend
-(`pip install lazrs` or `laspy[laz]`). If unavailable, change the extension to
-`.las` in run.py.
+## Run
+
+From `cad/`, generate a small example scene and upload it for APS translation:
+
+```bash
+python bake_demo.py
+```
+
+This writes `out/scene.obj`, `out/scene.mtl`, and `out/scene_cad.zip`, then prints the translated model URN.
+
+For a real scene:
+
+1. Download the tile manifest, select tiles with `python -m pipeline.select_tiles pointclouds_v2.geojson`, and place the LAZ files in `LAZ_DIR`.
+2. Put the `pavements_v2`, `aboveGroundAssets_v2`, and `streetviewImagePaths_v2` GeoJSON layers in `data/`.
+3. Run `python run.py` to classify the point cloud, export the model, upload it, and print its APS URN.
+4. Run `python export_points.py` to write the aligned colored point cloud to `out/points.bin`.
+
+`SONDER_SITE` optionally points to a site-handoff JSON file with the selected charger's location. `ROI_CX`, `ROI_CY`, and `ROI_M` select the region of interest.
+
+## Checks
+
+```bash
+python -m pytest tests/ -q
+node --test viewer/adjust.test.js
+```
+
+The tests use synthetic fixtures and do not require PDAL or source LiDAR tiles. Writing `out/classified.laz` in the full pipeline requires the LAZ backend supplied by `laspy[laz]`.
